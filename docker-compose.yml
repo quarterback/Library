@@ -1,0 +1,49 @@
+# Library — Full stack: app + PostgreSQL with pgvector
+#
+# Usage:
+#   cp .env.example .env   (then fill in API keys)
+#   docker compose up -d
+#   open http://localhost:8000
+
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: library
+      POSTGRES_USER: library
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-library_dev}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./src/db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U library"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8000}:${PORT:-8000}"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://library:${POSTGRES_PASSWORD:-library_dev}@db:5432/library
+      DATABASE_URL_SYNC: postgresql://library:${POSTGRES_PASSWORD:-library_dev}@db:5432/library
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      VOYAGE_API_KEY: ${VOYAGE_API_KEY}
+      CORPUS_DIR: /app/corpus/pdfs
+      PORT: ${PORT:-8000}
+      ENVIRONMENT: production
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-*}
+    volumes:
+      - corpus:/app/corpus
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  corpus:
