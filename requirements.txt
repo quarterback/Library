@@ -1,0 +1,32 @@
+# API framework
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+
+# Database
+asyncpg==0.30.0
+psycopg2-binary==2.9.10
+sqlalchemy==2.0.36
+pgvector==0.3.6
+alembic==1.14.1
+
+# PDF processing
+pymupdf==1.25.3
+pdfplumber==0.11.4
+
+# Embeddings
+voyageai==0.3.2
+
+# Claude API for RAG
+anthropic==0.43.0
+
+# Scraping
+httpx==0.28.1
+beautifulsoup4==4.12.3
+aiofiles==24.1.0
+
+# Utilities
+python-dotenv==1.0.1
+pydantic==2.10.4
+pydantic-settings==2.7.1
+click==8.1.8
+rich==13.9.4

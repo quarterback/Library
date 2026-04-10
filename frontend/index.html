@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library — Policy Report Corpus</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1 class="logo">Library</h1>
+            <p class="tagline">Search, analyze, and synthesize across thousands of policy reports</p>
+        </div>
+        <nav>
+            <button class="nav-btn active" data-view="search">Search</button>
+            <button class="nav-btn" data-view="browse">Browse</button>
+            <button class="nav-btn" data-view="ask">Ask</button>
+            <button class="nav-btn" data-view="stats">Stats</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- SEARCH VIEW -->
+        <section id="view-search" class="view active">
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search reports by keyword, topic, or author..." autofocus>
+                <button id="search-btn">Search</button>
+                <button id="semantic-btn" title="Semantic search finds conceptually similar content">Semantic</button>
+            </div>
+            <div class="filters">
+                <select id="filter-source">
+                    <option value="">All sources</option>
+                </select>
+                <input type="number" id="filter-year-min" placeholder="From year" min="1950" max="2030">
+                <input type="number" id="filter-year-max" placeholder="To year" min="1950" max="2030">
+                <select id="filter-sort">
+                    <option value="relevance">Relevance</option>
+                    <option value="year">Year (newest)</option>
+                    <option value="impact">Impact score</option>
+                    <option value="pages">Page count</option>
+                    <option value="title">Title A-Z</option>
+                </select>
+            </div>
+            <div id="search-results" class="results"></div>
+            <div id="search-pagination" class="pagination"></div>
+        </section>
+
+        <!-- BROWSE VIEW -->
+        <section id="view-browse" class="view">
+            <div class="browse-controls">
+                <select id="browse-source">
+                    <option value="">All sources</option>
+                </select>
+                <select id="browse-sort">
+                    <option value="recent">Most recent</option>
+                    <option value="impact">Highest impact</option>
+                    <option value="pages">Most pages</option>
+                    <option value="downloads">Most downloaded</option>
+                    <option value="title">Title A-Z</option>
+                </select>
+            </div>
+            <div id="browse-results" class="results"></div>
+            <div id="browse-pagination" class="pagination"></div>
+        </section>
+
+        <!-- ASK VIEW (RAG) -->
+        <section id="view-ask" class="view">
+            <div class="ask-container">
+                <h2>Ask the Corpus</h2>
+                <p class="ask-description">
+                    Ask a question in plain language. The system searches across all reports
+                    semantically, retrieves the most relevant passages, and synthesizes an
+                    answer with citations.
+                </p>
+                <div class="ask-input-group">
+                    <textarea id="ask-input" rows="3" placeholder="e.g., What evidence exists that shorter policy briefs have more influence than long reports?"></textarea>
+                    <div class="ask-filters">
+                        <select id="ask-source">
+                            <option value="">All sources</option>
+                        </select>
+                        <input type="number" id="ask-year-min" placeholder="From year">
+                        <input type="number" id="ask-year-max" placeholder="To year">
+                    </div>
+                    <button id="ask-btn">Ask</button>
+                </div>
+                <div id="ask-result" class="ask-result"></div>
+            </div>
+        </section>
+
+        <!-- STATS VIEW -->
+        <section id="view-stats" class="view">
+            <div id="stats-container">
+                <div class="stats-overview">
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-total">-</div>
+                        <div class="stat-label">Total Reports</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-sources">-</div>
+                        <div class="stat-label">Sources</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-pages">-</div>
+                        <div class="stat-label">Total Pages</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-avg-pages">-</div>
+                        <div class="stat-label">Avg Pages/Report</div>
+                    </div>
+                </div>
+                <h3>By Source Organization</h3>
+                <div id="stats-by-source" class="stats-table"></div>
+                <h3>Impact Comparison</h3>
+                <p class="stats-note">The Moss Metric: who writes the longest reports with the fewest readers?</p>
+                <div id="stats-comparison" class="stats-table"></div>
+            </div>
+        </section>
+
+        <!-- REPORT DETAIL MODAL -->
+        <div id="report-modal" class="modal">
+            <div class="modal-content">
+                <button class="modal-close">&times;</button>
+                <div id="report-detail"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Library &mdash; Indexing the reports everyone cites but nobody reads</p>
+    </footer>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
