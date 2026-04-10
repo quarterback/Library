@@ -16,6 +16,10 @@ class Settings(BaseSettings):
     chunk_overlap: int = 200
     claude_model: str = "claude-sonnet-4-20250514"
 
+    # Deployment
+    environment: str = "development"  # development | production
+    allowed_origins: str = "*"  # comma-separated origins for CORS
+
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
 
 

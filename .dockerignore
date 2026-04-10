@@ -1,0 +1,11 @@
+.git
+.env
+__pycache__
+*.pyc
+corpus/pdfs/*
+*.egg-info
+.venv
+venv
+node_modules
+.DS_Store
+tests

@@ -23,7 +23,46 @@ PDF Corpus → Parse → Chunk → Embed → PostgreSQL + pgvector
 - **Frontend**: Dashboard for search, browse, ask, and corpus statistics
 - **CLI**: Full command-line interface for all operations
 
-## Setup
+## Deploy
+
+### Docker (recommended)
+
+The fastest path from repo to live site. One command gets you the app + PostgreSQL with pgvector.
+
+```bash
+cp .env.example .env
+# Edit .env: add your ANTHROPIC_API_KEY, VOYAGE_API_KEY, and a real POSTGRES_PASSWORD
+
+docker compose up -d
+# App: http://localhost:8000
+# DB:  localhost:5432
+```
+
+### Railway
+
+1. Connect this repo to [Railway](https://railway.app)
+2. Add a PostgreSQL service (Railway provides pgvector-enabled Postgres)
+3. Set environment variables: `ANTHROPIC_API_KEY`, `VOYAGE_API_KEY`
+4. Railway auto-detects the `Dockerfile` and provisions `DATABASE_URL`
+5. Deploy — Railway assigns a public URL
+
+### Fly.io
+
+```bash
+fly launch            # creates the app
+fly postgres create   # provisions pgvector Postgres
+fly secrets set ANTHROPIC_API_KEY=sk-ant-... VOYAGE_API_KEY=pa-...
+fly deploy
+```
+
+### Render
+
+1. Connect this repo — Render reads `render.yaml` automatically
+2. It provisions the web service + PostgreSQL database
+3. Set `ANTHROPIC_API_KEY` and `VOYAGE_API_KEY` in the dashboard
+4. Deploy
+
+### Any VPS / bare metal
 
 ```bash
 # 1. Install dependencies
@@ -38,6 +77,11 @@ cp .env.example .env
 
 # 4. Start the server (creates tables automatically)
 python -m src.cli serve
+```
+
+For production, run behind nginx/caddy with HTTPS:
+```bash
+uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --proxy-headers
 ```
 
 ## Usage

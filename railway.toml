@@ -1,0 +1,19 @@
+# Railway deployment configuration
+# Railway auto-detects the Dockerfile and uses it.
+# Set environment variables in the Railway dashboard.
+#
+# To deploy:
+#   1. Connect this repo to Railway
+#   2. Add a PostgreSQL service (Railway provisions pgvector-enabled Postgres)
+#   3. Set env vars: ANTHROPIC_API_KEY, VOYAGE_API_KEY
+#   4. Railway provides DATABASE_URL automatically
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+healthcheckPath = "/health"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
